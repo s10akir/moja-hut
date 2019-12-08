@@ -20,6 +20,22 @@ class DHT22 {
       }
     )
   }
+
+  today(req, res) {
+    db.query(
+      `
+      SELECT * FROM dht22_logs
+          WHERE DATE(created_at) = curdate();
+      `,
+      (err, rows) => {
+        if (!err) {
+          res.json(rows)
+        } else {
+          res.send(err)
+        }
+      }
+    )
+  }
 }
 
 module.exports = new DHT22()
