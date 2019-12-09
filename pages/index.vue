@@ -2,34 +2,61 @@
   <div class="container">
     <div>
       <logo />
-      <h1 class="title">
+      <h1>
         moja-hut
       </h1>
-      <h2 class="subtitle">
-        もじゃ小屋
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <h3>
+        meow meow, I'm a Cat.
+      </h3>
+      <p>temperature: {{ logs[0].temperature | round }} °C</p>
+      <p>humidity: {{ logs[0].humidity | round }} %</p>
+      <p>last updated: {{ logs[0].created_at }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 import Logo from '~/components/Logo.vue'
 
 export default {
   components: {
     Logo
+  },
+  filters: {
+    round(value) {
+      return Math.round(value * 10) / 10
+    }
+  },
+  data() {
+    return {
+      // 初期データ
+      logs: [
+        {
+          temperature: '-',
+          humidity: '-'
+        }
+      ],
+      timers: []
+    }
+  },
+  mounted() {
+    // DHT22
+    this.getLastLogs()
+    this.timers.push(setInterval(this.getLastLogs, 1000 * 60))
+  },
+  destroyed() {
+    this.timers.forEach((timer) => {
+      clearInterval(timer)
+    })
+  },
+  methods: {
+    getLastLogs() {
+      axios.get('/api/v1/dht22').then((res) => {
+        this.logs = res.data
+      })
+    }
   }
 }
 </script>
@@ -42,27 +69,5 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
