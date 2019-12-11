@@ -6,35 +6,49 @@ class DHT22 {
   }
 
   last(req, res) {
-    db.query(
-      `
-      SELECT * FROM dht22_logs
-          ORDER BY created_at DESC LIMIT 1;
-      `,
-      (err, rows) => {
-        if (!err) {
-          res.json(rows)
-        } else {
-          res.send(err)
-        }
+    db.getConnection((err, connection) => {
+      if (err) {
+        res.send(err)
+      } else {
+        connection.query(
+          `
+          SELECT * FROM dht22_logs
+              ORDER BY created_at DESC LIMIT 1;
+          `,
+          (err, rows) => {
+            if (!err) {
+              res.json(rows)
+            } else {
+              res.send(err)
+            }
+            connection.release()
+          }
+        )
       }
-    )
+    })
   }
 
   today(req, res) {
-    db.query(
-      `
-      SELECT * FROM dht22_logs
-          WHERE DATE(created_at) = curdate();
-      `,
-      (err, rows) => {
-        if (!err) {
-          res.json(rows)
-        } else {
-          res.send(err)
-        }
+    db.getConnection((err, connection) => {
+      if (err) {
+        res.send(err)
+      } else {
+        connection.query(
+          `
+          SELECT * FROM dht22_logs
+              WHERE DATE(created_at) = curdate();
+          `,
+          (err, rows) => {
+            if (!err) {
+              res.json(rows)
+            } else {
+              res.send(err)
+            }
+            connection.release()
+          }
+        )
       }
-    )
+    })
   }
 }
 
