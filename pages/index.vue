@@ -8,9 +8,13 @@
       <h3>
         meow meow, I'm a Cat.
       </h3>
-      <p>temperature: {{ logs[0].temperature | round }} °C</p>
-      <p>humidity: {{ logs[0].humidity | round }} %</p>
-      <p>last updated: {{ logs[0].created_at }}</p>
+      <p>
+        temperature: {{ logs[0].temperature | round }} °C<br />
+        humidity: {{ logs[0].humidity | round }} %
+        <br />
+        last updated: {{ logs[0].created_at }}
+      </p>
+      <a href="/api/v1/dht22/today" class="btn btn-primary">View Today Logs</a>
     </div>
   </div>
 </template>
