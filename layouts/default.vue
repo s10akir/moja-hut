@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
+      <b-navbar-brand href="/">moja-hut</b-navbar-brand>
+    </b-navbar>
     <nuxt />
   </div>
 </template>
