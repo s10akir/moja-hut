@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
-      <b-navbar-brand href="/">moja-hut</b-navbar-brand>
+      <nuxt-link to="/"><b-navbar-brand>moja-hut</b-navbar-brand></nuxt-link>
     </b-navbar>
     <nuxt />
   </div>
