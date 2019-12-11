@@ -14,7 +14,7 @@
         <br />
         last updated: {{ logs[0].created_at }}
       </p>
-      <a href="/api/v1/dht22/today" class="btn btn-primary">View Today Logs</a>
+      <nuxt-link to="/today" class="btn btn-primary">View Today Logs</nuxt-link>
     </div>
   </div>
 </template>
